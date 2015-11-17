@@ -2,31 +2,146 @@
 html{  height: 100%; }
 
 body {
-    position:absolute;
-    top:0;
-    bottom:0;
-    right:0;
-    left:0;
-    background-color: #65cd9c;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #66ccc7;
+    text-shadow: 1px 1px 0px rgba(0,0,0, 0.5);
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+a {
+  color:c#004d78;
+}
+
+caption {
+  font-weight: 600;
+}
+
+footer {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  text-shadow: none;
+  color: #FFFFFF;
+  width: 90%;
+  margin: auto;
+  text-align:right;
+}
+
+.download-link {
+  text-align: center;
+}
+
+.content {
+  margin: 10% auto;
+}
+
+.title {
+    margin-bottom: 1%;
+    text-align: center;
+    text-shadow: 2px 2px 0px rgba(0,0,0, 0.5);
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+  .animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes bounceInUp {
+    0% {
+        -webkit-transform: translateY(60px);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+    }
+}
+
+@keyframes bounceInUp {
+    0% {
+        transform: translateY(60px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.bounceInUp {
+    -webkit-animation-name: bounceInUp;
+    animation-name: bounceInUp;
 }
 
 .slick-slide {
     outline: none
 }
 
+.slick-prev {
+  left:-30px !important;
+}
+
+.slick-next {
+  right:-30px !important;
+}
+
+.slick-dots {
+  top:100% !important;
+  width:90% !important;
+}
+
 .carousel {
-  margin: 15% auto;
-  max-width:90%;
+  margin:auto;
+  padding: 2.5%;
+  max-width: 90%;
+  background-color: #f58787;
+  -webkit-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
 }
 
 .step {
-  max-width:100%;
-  color:#FFFFFF;
+  max-width: 100%;
+  color: #FFFFFF;
 }
 
-.step-title{
-  text-align:center;
+#start-button {
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(0,0,0, 0.5);
   font-family: 'Open Sans', sans-serif;
-  font-weight:800;
-  color:#FFFFFF;
+  font-weight: 800;
+  color: #FFFFFF;
+  background-color: #66ccc7;
+  -webkit-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  text-align:right;
+  float: right;
+}
+
+.step-title {
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(0,0,0, 0.5);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.code-block {
+  background-color:#FFFFFF;
+  text-shadow: none;
+  border:none !important;
+  padding:5px !important;
+  margin-bottom:5px;
+  -webkit-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
 }
