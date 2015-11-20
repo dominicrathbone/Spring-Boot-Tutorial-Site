@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $('.carousel').slick({
+    draggable: false,
     dots: true,
     speed: 300,
     adaptiveHeight: true,

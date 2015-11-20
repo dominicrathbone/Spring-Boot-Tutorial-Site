@@ -11,13 +11,13 @@ body {
     text-shadow: 1px 1px 0px rgba(0,0,0, 0.5);
 }
 
-p {
+p,li {
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
 }
 
 a {
-  color:c#004d78;
+  color:#CE5252;
 }
 
 caption {
@@ -123,9 +123,9 @@ footer {
   -webkit-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
   -moz-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
   box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
-  text-align:right;
   float: right;
 }
+
 
 .step-title {
   text-align: center;
@@ -135,13 +135,29 @@ footer {
   color: #FFFFFF;
 }
 
-.code-block {
+.prerequisite {
+  text-shadow: 2px 2px 0px rgba(0,0,0, 0.5);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.block {
+  color:black;
   background-color:#FFFFFF;
   text-shadow: none;
   border:none !important;
   padding:5px !important;
-  margin-bottom:5px;
+  margin-bottom:20px;
   -webkit-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
   -moz-box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
   box-shadow: 10px 10px 0px -5px rgba(0,0,0,0.3);
+  -moz-user-select: text;
+  cursor: auto !important;
+  -webkit-user-select: auto !important;
+  -moz-user-select: auto !important;
+}
+
+.inlineCode {
+  font-family:monospace;
 }
