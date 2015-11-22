@@ -1,0 +1,446 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use Spring Boot</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,800' rel='stylesheet' type='text/css'>
+  <script src="js/vendor/modernizr.js"></script>
+</head>
+<body>
+  <div class="content">
+    <h1 class="title animated bounceInUp">Building a web service with Spring Boot.</h3>
+      <div class="carousel">
+        <div class="row step">
+          <div class="small-12 columns small-centered" role="content">
+            <h2 class="step-title">What is Spring Boot?</h2>
+            <hr/>
+            <p>
+              Spring Boot is a part of the Spring web framework that focuses on using "Convention over Configuration"
+              to allow developers to rapidly set-up web applications. "Convention over Configuration" is the idea that
+              in order to save time, developers should only have to specify the technologies they want to use if they are
+              exceptions to the rule.In this sense, Spring Boot decides on a set of default technologies
+              and if you want to use an alternative,you just specify it in a configuration file.
+            </p>
+            <button id="start-button">START</button>
+          </div>
+        </div>
+        <div class="row step">
+          <div class="small-12 columns small-centered" role="content">
+            <h2 class="step-title">Prerequistes.</h2>
+            <hr/>
+            <h4 class="prerequisite">A basic knowledge of the Java language.</h4>
+            <h4 class="prerequisite">A basic knowledge of the command line.</h4>
+            <h4 class="prerequisite">JDK.</h4>
+            <p> Surprisingly enough, you will need the
+              <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java Development Kit!</a>
+            </p>
+            <h4 class="prerequisite">Maven.</h4>
+            <p>Download and install <a href="https://maven.apache.org/download.cgi">Apache Maven.</a></p>
+            <p>Maven is a Java build automation tool. It uses a "Project Object Model" represented as XML in a file called pom.xml containing
+              the metadata and dependencies for your project. A dependency is any external library that your project may need and
+              using this tool it means you do not have to manually include all these in your project as it downloads them at build time.
+              To find available dependencies, you can use the the <a href="http://search.maven.org/">Maven central repository</a> or
+              add your own alternative repository.
+            </p>
+            <h4 class="prerequisite"> A text editor or IDE. </h4>
+            <p>I personally used <a href="https://atom.io/">Atom</a> as a text editor for this tutorial
+            but you can use what ever you like, <a href="https://spring.io/tools">Spring Tool Suite</a>
+            has integrated support for Spring projects so this may be a good starting point if you haven't
+            developed one before.
+            </p>
+          </div>
+        </div>
+        <div class="row step">
+          <div class="small-12 columns small-centered" role="content">
+              <h2 class="step-title">Step 1</h2>
+              <h3 class="step-title">Laying it out.</h3>
+              <hr/>
+              <p>To build correctly, your project should follow the standard directory layout specified by Maven.
+                For our project, we should include the dependency for the spring boot starter kit in the pom.xml file
+                as well as the spring boot maven plugin which allows you to run spring boot specific targets through
+                the maven CLI.
+              </p>
+              <caption>Maven directory layout</caption>
+              <pre class="prettyprint lang-java block">
+<!--       --->-pom.xml           -Project Object Model file
+<!--       --->-src
+<!--       --->  -main
+<!--       --->     -java         -Java source code e.g "main.java".
+<!--       --->     -webapp       -Static web content e.g "index.html".
+<!--       --->     -resources    -Resources used by web application e.g "data.csv".
+<!--       --->  -test
+<!--       --->     -java         -Java source code for your tests e.g "mainUnitTest.java".
+<!--       --->     -resources    -Resources used by your tests e.g "testImage.png".</pre>
+              <caption>pom.xml</caption>
+              <pre class="prettyprint lang-xml block">
+<!--            --><span>&lt;project&gt;</span>
+
+<!--            --> <span>&lt;modelVersion&gt;</span>4.0.0<span>&lt;/modelVersion&gt;</span>
+
+<!--            --> <span>&lt;groupId&gt;</span>com.mycompany.app<span>&lt;/groupId&gt;</span>
+<!--            --> <span>&lt;artifactId&gt;</span>my-spring-boot-app<span>&lt;/artifactId&gt;</span>
+<!--            --> <span>&lt;version&gt;</span>1.0<span>&lt;/version&gt;</span>
+
+<!--            --> <span>&lt;parent&gt;</span>
+<!--            -->   <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
+<!--            -->   <span>&lt;artifactId&gt;</span>spring-boot-starter-parent<span>&lt;/artifactId&gt;</span>
+<!--            -->   <span>&lt;version&gt;</span>1.3.0.RELEASE<span>&lt;/version&gt;</span>
+<!--            --> <span>&lt;/parent&gt;</span>
+
+<!--            --> <span>&lt;dependencies&gt;</span>
+<!--            -->   <span>&lt;dependency&gt;</span>
+<!--            -->    <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
+<!--            -->    <span>&lt;artifactId&gt;</span>spring-boot-starter-web<span>&lt;/artifactId&gt;</span>
+<!--            -->   <span>&lt;/dependency&gt;</span>
+<!--            --> <span>&lt;/dependencies&gt;</span>
+
+<!--            --> <span>&lt;build&gt;</span>
+<!--            -->   <span>&lt;plugins&gt;</span>
+<!--            -->     <span>&lt;plugin&gt;</span>
+<!--            -->      <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
+<!--            -->      <span>&lt;artifactId&gt;</span>spring-boot-maven-plugin<span>&lt;/artifactId&gt;</span>
+<!--            -->     <span>&lt;/plugin&gt;</span>
+<!--            -->   <span>&lt;/plugins&gt;</span>
+<!--            --> <span>&lt;/build&gt;</span>
+
+<!--            --> <span>&lt;repositories&gt;</span>
+<!--            -->   <span>&lt;repository&gt;</span>
+<!--            -->     <span>&lt;id&gt;</span>spring-releases<span>&lt;/id&gt;</span>
+<!--            -->     <span>&lt;url&gt;</span>https://repo.spring.io/libs-release<span>&lt;/url&gt;</span>
+<!--            -->   <span>&lt;/repository&gt;</span>
+<!--            --> <span>&lt;/repositories&gt;</span>
+
+<!--            --> <span>&lt;pluginRepositories&gt;</span>
+<!--            -->   <span>&lt;pluginRepository&gt;</span>
+<!--            -->     <span>&lt;id&gt;</span>spring-releases<span>&lt;/id&gt;</span>
+<!--            -->     <span>&lt;url&gt;</span>https://repo.spring.io/libs-release<span>&lt;/url&gt;</span>
+<!--            -->   <span>&lt;/pluginRepository&gt;</span>
+<!--            --> <span>&lt;/pluginRepositories&gt;</span>
+
+<!--            --><span>&lt;/project&gt;</span></pre>
+            </div>
+          </div>
+          <div class="row step">
+            <div class="small-12 columns small-centered" role="content">
+                <h2 class="step-title">Step 2</h2>
+                <h3 class="step-title">Creating your first web service!</h3>
+                <hr/>
+                <p> With your preferred IDE (you will probably need to import your maven project first)
+                    or text editor, create a package called app in the main java directory and within that,
+                    create your "main" class. This class acts as the entry point to your application and allows
+                    spring to bootstrap your project and launch it.
+                </p>
+                <caption> main.java </caption>
+                <pre class="prettyprint block">
+package app;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+@SpringBootApplication
+public class Main {
+
+  public static void main(String[] args) {
+      ApplicationContext ctx = SpringApplication.run(Main.class, args);
+  }
+}</pre>
+              </div>
+            </div>
+            <div class="row step">
+              <div class="small-12 columns small-centered" role="content">
+                <h2 class="step-title">Step 3</h2>
+                <h3 class="step-title">Launching your service.</h3>
+                <hr/>
+                  <p>
+                     To launch your service, all you have to do is open a terminal, navigate to the root directory
+                     (containing your pom.xml file) of the project and run the <code class="inlineCode"> mvn spring-boot:run</code> command.
+                     This is one of the manytargets that the spring boot maven plugin supplies to maven. This will launch
+                     the service on port 8080 using an embedded instance of Apache Tomcat (the default Spring Boot web server),
+                     a web server specifically used to deploy Java web applications. In our case as the
+                     service doesn't have any endpoints or any static content to serve yet, it will show us an error page.
+                     You can see for yourself by going to <a href="http://localhost:8080">http://localhost:8080</a>.
+                   </p>
+                   <img class="block" src="img/mvnspringbootrun.gif"/>
+              </div>
+            </div>
+            <div class="row step">
+              <div class="small-12 columns small-centered" role="content">
+                <h2 class="step-title">Web APIs and REST</h2>
+                <hr/>
+                  <p>
+                    An endpoint is an entrance into your web service normally via a URL, the collection of these endpoints
+                    is considered your service's web API (application programming interface). The idea of this is to decouple
+                    the your service (producer) and the client using the API (consumer). In our case, this endpoint
+                    will be produced using a set of architectural guidelines called <b>Re</b>presentational <b>S</b>tate <b>T</b>ransfer
+                    or <b>REST</b>. This defines endpoints in terms of resources available from the service</p>
+                    <pre class = "block">
+http://localhost:8080/api/book/1
+                            |  └id
+                            └resource</pre><p>
+                    By using RESTful design, it means that our service is inherently stateless as it doesn't maintain client state,
+                    instead this is left up to the consumer. As each endpoint is a resource, the most appropriate way to interact
+                    with them is using create, read, update, and delete operations or <b>CRUD</b> for short. Conveniently, these
+                    operations can be mapped to HTTP verbs:
+                  </p>
+                  <ul>
+                      <li> CREATE --> HTTP PUT or POST </li>
+                      <li> READ --> HTTP GET </li>
+                      <li> UPDATE --> HTTP PUT </li>
+                      <li> DELETE --> HTTP DELETE </li>
+                  </ul>
+                  <p>
+                    The usage of PUT or POST for creating resources tends to be left up to the web service and is up for debate
+                    but it is good to remember that PUT is idempotent whereas POST is not.
+                  </p>
+                  <p>
+                    Also! Please note that there is a lot more to REST than what's been mentioned so far. If you want to read
+                    more about the concept, you can read the creator's <a href="https://www.ics.uci.edu/~fielding/pubs/dissertation
+                    /rest_arch_style.htm">original dissertation.</a>
+                 </p>
+              </div>
+            </div>
+            <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 4</h2>
+               <h3 class="step-title">Using JSON to model your response.</h3>
+               <hr/>
+               <p>
+                 Our endpoint is going to be very simple and will return the details about a university student.
+                 To add this to our service, we will need to add two new classes. One to represent the response
+                 we will be sending back and one to define the endpoint. The response we will send back will be
+                 modelled using JSON. Javascript Object Notation or <b>JSON</b> is a language used to represent
+                 and transfer data similar to XML, however, how JSON represents data is much simplier than XML.
+                 Our response will look like this:
+               </p>
+                 <caption> JSON response </caption>
+                 <pre class="block">
+{
+ name: Paul;
+ studentNumber: 12548760;
+ course: Computer Science;
+ courseYear: 2;
+}</pre>
+               <p>
+                 Conveniently, Spring uses a library called Jackson to parse a Java representation
+                 of our response to JSON. This means we can model our response as a Java object that looks like
+                 this:
+               </p>
+               <caption> Student.java </caption>
+               <pre class="prettyprint lang-java block">
+package app;
+
+public class Student {
+
+   String name;
+   int studentNumber;
+   String course;
+   int courseYear;
+
+   public Student(String name, int studentNumber, String course, int courseYear) {
+       this.name = name;
+       this.studentNumber = studentNumber;
+       this.course = course;
+       this.courseYear = courseYear;
+
+   }
+
+   public String getName() {
+       return name;
+   }
+
+   public int getStudentNumber() {
+       return studentNumber;
+   }
+
+   public String getCourse() {
+       return course;
+   }
+
+   public int getCourseYear() {
+       return courseYear;
+   }
+
+}</pre>
+              </div>
+            </div>
+            <div class="row step">
+              <div class="small-12 columns small-centered" role="content">
+                <h2 class="step-title">Step 5</h2>
+                <h3 class="step-title">Creating the endpoint for your service.</h3>
+                <hr/>
+                 <p>
+                  Now to actually add the endpoint to your service, create a new class called
+                  "StudentController.java" as seen below. If you look at the class, you can see that we
+                  map our endpoint to "http://localhost:8080/student/{studentNumber}" where "studentNumber" is a "path variable",
+                  this is a parameter that a user enters as part of the URI which we can use within our code. In our case, it is
+                  the ID number of the student. Based on this path variable, we can send back details for each different student
+                  as a response.
+                 </p>
+                 <caption> StudentController.java </caption>
+                 <pre class="prettyprint lang-java block">
+package app;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+
+@RestController
+public class StudentController {
+
+    HashMap<String, Student> students = new HashMap<String, Student>();
+
+    public StudentController() {
+        students.put("12548760", new Student("Paul", 12548760, "Computer Science", 2));
+        students.put("12548761", new Student("Jess", 12548761, "Computer Science Games", 1));
+        students.put("12548762", new Student("Helen", 12548762, "Business", 3));
+        students.put("12548763", new Student("Chris", 12548763, "Mechanical Engineering", 2));
+    }
+
+    @RequestMapping("/student/{studentNumber}")
+    public Student getStudentDetails(@PathVariable String studentNumber) {
+
+        if(studentNumber.equals("12548760")) {
+          return students.get("12548760");
+        }
+        if(studentNumber.equals("12548761")) {
+            return students.get("12548761");
+        }
+        if(studentNumber.equals("12548762")) {
+            return students.get("12548762");
+        }
+        if(studentNumber.equals("12548763")) {
+            return students.get("12548763");
+        }
+        return null;
+    }
+
+}</pre>
+              </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 6</h2>
+               <h3 class="step-title"> Relaunch your application! </h3>
+               <hr/>
+                <p>
+                  Relaunch your application by running <code class="inlineCode">mvn spring-boot:run</code> again.
+                  After doing so, go to <a href="http://localhost:8080/student/12548760"> http://localhost:8080/student/12548760 </a>
+                  and you should be able to see a plain HTML page containing our response.
+                </p>
+                <pre class="block">{"name":"Paul","studentNumber":12548760,"course":"Computer Science","courseYear":2}<pre>
+             </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 7</h2>
+               <h3 class="step-title"> Metrics </h3>
+               <hr/>
+                <p>
+                  We can also add metrics endpoints to our service to collect important information about it. To do so,
+                  all you have to do is add a dependency to the pom.xml file.
+                </p>
+                <pre class="block">
+<!--            --><span>&lt;dependency&gt;</span>
+<!--            -->  <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
+<!--            -->  <span>&lt;artifactId&gt;</span>spring-boot-starter-actuator<span>&lt;/artifactId&gt;</span>
+<!--            --><span>&lt;/dependency&gt;</span></pre>
+                <p>
+                  Now if you relaunch your service, go to <a href="http://localhost:8080/health">http://localhost:8080/health</a>,
+                  you will see a simple response containing the status of the service.
+                </p>
+                <pre class="block">{"status":"UP","diskSpace":{"status":"UP","total":36596060160,"free":20713435136,"threshold":10485760}</pre>
+                <p>
+                  Now if you go to <a href="http://localhost:8080/metrics">http://localhost:8080/metrics</a>, you will
+                  see a response containing all sorts of information about your service and the server it is running on.
+                </p>
+                <pre class="block">
+{
+   "mem":265728,
+   "mem.free":157546,
+   "processors":4,
+   "instance.uptime":5679,
+   "uptime":13556,
+   "systemload.average":0.7,
+   "heap.committed":265728,
+   "heap.init":126976,
+   "heap.used":108181,
+   "heap":1791488,
+   "threads.peak":13,
+   "threads.daemon":11,
+   "threads.totalStarted":17,
+   "threads":13,
+   "classes":8766,
+   "classes.loaded":8766,
+   "classes.unloaded":0,
+   "gc.ps_scavenge.count":9,
+   "gc.ps_scavenge.time":126,
+   "gc.ps_marksweep.count":2,
+   "gc.ps_marksweep.time":169,
+   "httpsessions.max":-1,
+   "httpsessions.active":0
+}</pre>
+             </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 8</h2>
+               <h3 class="step-title"> Authentication </h3>
+               <hr/>
+                <p>
+                  If you think about it, it might not be a good idea to expose these two endpoints to the world as they publish
+                  information about the server that could be exploited maliciously. This is where we introduce a basic idea
+                  of security into our service. To do so, we need to yet add another dependency to the POM.
+                </p>
+                <pre class="block">
+<!--            --><span>&lt;dependency&gt;</span>
+<!--            -->  <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
+<!--            -->  <span>&lt;artifactId&gt;</span>spring-boot-starter-security<span>&lt;/artifactId&gt;</span>
+<!--            --><span>&lt;/dependency&gt;</span></pre>
+              <p>
+                Once this is done, we also need to create a properties file called "application.properties" in the
+                project root directory so we can add authentication to each endpoint. This properties file should
+                contain 3 pretty self-explanatory properties.
+              </p>
+              <pre class="block">
+security.basic.enabled=true
+security.user.name=admin
+security.user.password=ci347</pre>
+              <p>
+                Again, relaunch the application and go to the health or metrics endpoints. This time, you will have to enter
+                the username and password you supplied in the properties file to access it.
+              </p>
+             </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 9</h2>
+               <h3 class="step-title"> Testing your service. </h3>
+               <hr/>
+               <p>
+                On top of writing tests to run on your source code such as unit tests, it is also a good idea to
+                black box test your API. A good way to do this is to use a tool like <a href="https://www.getpostman.com/">
+                Postman</a>. With this, you can write collections of automated tests to run against your API.
+               </p>
+             </div>
+           </div>
+          </div>
+      </div>
+      <footer>Copyright 2015© Dominic Rathbone</footer>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+      <script src="js/vendor/jquery.js"></script>
+      <script src="js/foundation.min.js"></script>
+      <script>
+      $(document).foundation();
+      </script>
+      <script type="text/javascript" src="slick/slick.min.js"></script>
+      <script src="js/app.js"></script>
+    </body>
+    </html>
