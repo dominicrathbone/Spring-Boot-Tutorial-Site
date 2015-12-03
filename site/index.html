@@ -161,8 +161,8 @@ public class Main {
                      To launch your service, all you have to do is open a terminal, navigate to the root directory
                      (containing your pom.xml file) of the project and run the <code class="inlineCode"> mvn spring-boot:run</code> command.
                      This is one of the manytargets that the spring boot maven plugin supplies to maven. This will launch
-                     the service on port 8080 using an embedded instance of Apache Tomcat (the default Spring Boot web server),
-                     a web server specifically used to deploy Java web applications. In our case as the
+                     the service on port 8080 using an embedded instance of Apache Tomcat (a convention chosen by
+                     spring boot), a web server specifically used to deploy Java web applications. In our case as the
                      service doesn't have any endpoints or any static content to serve yet, it will show us an error page.
                      You can see for yourself by going to <a href="http://localhost:8080">http://localhost:8080</a>.
                    </p>
@@ -335,7 +335,7 @@ public class StudentController {
                   After doing so, go to <a href="http://localhost:8080/student/12548760"> http://localhost:8080/student/12548760 </a>
                   and you should be able to see a plain HTML page containing our response.
                 </p>
-                <pre class="block">{"name":"Paul","studentNumber":12548760,"course":"Computer Science","courseYear":2}<pre>
+                <pre class="block">{"name":"Paul","studentNumber":12548760,"course":"Computer Science","courseYear":2}</pre>
              </div>
            </div>
            <div class="row step">
@@ -344,15 +344,15 @@ public class StudentController {
                <h3 class="step-title"> Metrics </h3>
                <hr/>
                 <p>
-                  We can also add metrics endpoints to our service to collect important information about it. To do so,
+                  We can also add metrics endpoints to our service to monitor important statistics about the application's health and stability. To do so,
                   all you have to do is add a dependency to the pom.xml file.
                 </p>
                 <pre class="block">
 <!--            --><span>&lt;dependency&gt;</span>
 <!--            -->  <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
 <!--            -->  <span>&lt;artifactId&gt;</span>spring-boot-starter-actuator<span>&lt;/artifactId&gt;</span>
-<!--            --><span>&lt;/dependency&gt;</span></pre>
                 <p>
+<!--            --><span>&lt;/dependency&gt;</span></pre>
                   Now if you relaunch your service, go to <a href="http://localhost:8080/health">http://localhost:8080/health</a>,
                   you will see a simple response containing the status of the service.
                 </p>
@@ -396,7 +396,7 @@ public class StudentController {
                <hr/>
                 <p>
                   If you think about it, it might not be a good idea to expose these two endpoints to the world as they publish
-                  information about the server that could be exploited maliciously. This is where we introduce a basic idea
+                  information about the server that could be maliciously exploited. This is where we introduce a basic idea
                   of security into our service. To do so, we need to yet add another dependency to the POM.
                 </p>
                 <pre class="block">
@@ -422,6 +422,42 @@ security.user.password=ci347</pre>
            <div class="row step">
              <div class="small-12 columns small-centered" role="content">
                <h2 class="step-title">Step 9</h2>
+               <h3 class="step-title"> Logging </h3>
+               <hr/>
+               <p>
+                 Logging is important to a webmaster and system administrators as it allows for notification and tracking of problems
+                 within an application. By default, the Spring boot web starter dependency uses the Logback framework as a logging convention. Logback uses
+                 5 levels of logging,
+               </p>
+               <ul>
+                 <li>ERROR - Events that are unexpected and will affect functionality/performance of the application.</li>
+                 <li>WARN - Events that aren't expected to happen but won't affect the application's functionality or performance.</li>
+                 <li>INFO - Significant expected events </li>
+                 <li>DEBUG - Insignificant details of an event to help track it's steps throughout a system</li>
+                 <li>TRACE - Extremely in depth details of an event </li>
+               </ul>
+               <p>
+                 You can change the logging level each logger outputs by adding "logging.level" properties to application.properties.
+               </p>
+               <caption> logging level property </caption>
+               <pre class="block">
+logging.level.org.springframework.web=INFO</pre>
+               <p>As a default, logs are only logged to the console. To change this, another property can be added to specify a path or file to log to.</p>
+               <caption> logging file and logging path properties </caption>
+               <pre class="block">
+logging.file="webservice.log"
+logging.path="/var/log/"</pre>
+               <p>
+                 When outputted to a log, the default format consists of a timestamp, log level, process ID, thread name, logger name and log message.
+               </p>
+               <caption> Default log output </caption>
+               <pre class="block">
+2014-03-05 10:57:51.112  INFO 45469 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/7.0.52</pre>
+             </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h2 class="step-title">Step 10</h2>
                <h3 class="step-title"> Testing your service. </h3>
                <hr/>
                <p>
