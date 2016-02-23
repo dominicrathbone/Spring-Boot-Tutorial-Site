@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="content">
-    <h1 class="title animated bounceInUp">Building a web service with Spring Boot.</h3>
+      <h1 class="title animated bounceInUp">Building a web service with Spring Boot.</h1>
       <div class="carousel">
         <div class="row step">
           <div class="small-12 columns small-centered" role="content">
@@ -26,6 +26,7 @@
               exceptions to the rule.In this sense, Spring Boot decides on a set of default technologies
               and if you want to use an alternative,you just specify it in a configuration file.
             </p>
+            <p>HINT: Once you have clicked start, you can use arrows to navigate.</p>
             <button id="start-button">START</button>
           </div>
         </div>
@@ -41,12 +42,6 @@
             </p>
             <h4 class="prerequisite">Maven.</h4>
             <p>Download and install <a href="https://maven.apache.org/download.cgi">Apache Maven.</a></p>
-            <p>Maven is a Java build automation tool. It uses a "Project Object Model" represented as XML in a file called pom.xml containing
-              the metadata and dependencies for your project. A dependency is any external library that your project may need and
-              using this tool it means you do not have to manually include all these in your project as it downloads them at build time.
-              To find available dependencies, you can use the the <a href="http://search.maven.org/">Maven central repository</a> or
-              add your own alternative repository.
-            </p>
             <h4 class="prerequisite"> A text editor or IDE. </h4>
             <p>I personally used <a href="https://atom.io/">Atom</a> as a text editor for this tutorial
             but you can use what ever you like, <a href="https://spring.io/tools">Spring Tool Suite</a>
@@ -60,6 +55,12 @@
               <h2 class="step-title">Step 1</h2>
               <h3 class="step-title">Laying it out.</h3>
               <hr/>
+              <p>Maven is a build automation tool for Java applications. It uses a "Project Object Model" represented as XML in a file called pom.xml 
+              containing the metadata and dependencies for your project. A dependency is any external library that your project may need and
+              using this tool it means you do not have to manually include all these in your project as it downloads them at build time.
+              To find available dependencies, you can use the the <a href="http://search.maven.org/">Maven central repository</a> or
+              add your own alternative repository.
+              </p>
               <p>To build correctly, your project should follow the standard directory layout specified by Maven.
                 For our project, we should include the dependency for the spring boot starter kit in the pom.xml file
                 as well as the spring boot maven plugin which allows you to run spring boot specific targets through
@@ -132,8 +133,8 @@
                 <hr/>
                 <p> With your preferred IDE (you will probably need to import your maven project first)
                     or text editor, create a package called app in the main java directory and within that,
-                    create your "main" class. This class acts as the entry point to your application and allows
-                    spring to bootstrap your project and launch it.
+                    create your "main" class. This class acts as the entry point to your application and allows 
+                    the spring framework to bootstrap your project and launch it.
                 </p>
                 <caption> main.java </caption>
                 <pre class="prettyprint block">
@@ -160,7 +161,7 @@ public class Main {
                   <p>
                      To launch your service, all you have to do is open a terminal, navigate to the root directory
                      (containing your pom.xml file) of the project and run the <code class="inlineCode"> mvn spring-boot:run</code> command.
-                     This is one of the manytargets that the spring boot maven plugin supplies to maven. This will launch
+                     This is one of the many targets that the spring boot maven plugin supplies to maven. This will launch
                      the service on port 8080 using an embedded instance of Apache Tomcat (a convention chosen by
                      spring boot), a web server specifically used to deploy Java web applications. In our case as the
                      service doesn't have any endpoints or any static content to serve yet, it will show us an error page.
@@ -176,14 +177,15 @@ public class Main {
                   <p>
                     An endpoint is an entrance into your web service normally via a URL, the collection of these endpoints
                     is considered your service's web API (application programming interface). The idea of this is to decouple
-                    the your service (producer) and the client using the API (consumer). In our case, this endpoint
+                    the service (producer) and the client using the API (consumer). In our case, this endpoint
                     will be produced using a set of architectural guidelines called <b>Re</b>presentational <b>S</b>tate <b>T</b>ransfer
                     or <b>REST</b>. This defines endpoints in terms of resources available from the service</p>
                     <pre class = "block">
 http://localhost:8080/api/book/1
                             |  └id
                             └resource</pre><p>
-                    By using RESTful design, it means that our service is inherently stateless as it doesn't maintain client state,
+                    By using RESTful design, it means that our service will have a uniform interface which makes it easier for consumers to 
+                    programmatically traverse and use our service. It also makes the service inherently stateless as it doesn't maintain client state,
                     instead this is left up to the consumer. As each endpoint is a resource, the most appropriate way to interact
                     with them is using create, read, update, and delete operations or <b>CRUD</b> for short. Conveniently, these
                     operations can be mapped to HTTP verbs:
@@ -196,12 +198,12 @@ http://localhost:8080/api/book/1
                   </ul>
                   <p>
                     The usage of PUT or POST for creating resources tends to be left up to the web service and is up for debate
-                    but it is good to remember that PUT is idempotent whereas POST is not.
+                    but a good tip to remember is that PUT is idempotent whereas POST is not.
                   </p>
                   <p>
                     Also! Please note that there is a lot more to REST than what's been mentioned so far. If you want to read
-                    more about the concept, you can read the creator's <a href="https://www.ics.uci.edu/~fielding/pubs/dissertation
-                    /rest_arch_style.htm">original dissertation.</a>
+                    more about the concept and more advanced parts of it such as HATEOAS (Hypermedia as the engine of application state), 
+                    you can read the creator's <a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">original dissertation.</a>
                  </p>
               </div>
             </div>
@@ -214,11 +216,12 @@ http://localhost:8080/api/book/1
                  Our endpoint is going to be very simple and will return the details about a university student.
                  To add this to our service, we will need to add two new classes. One to represent the response
                  we will be sending back and one to define the endpoint. The response we will send back will be
-                 modelled using JSON. Javascript Object Notation or <b>JSON</b> is a language used to represent
-                 and transfer data similar to XML, however, how JSON represents data is much simplier than XML.
-                 Our response will look like this:
+                 modelled using JSON. Javascript Object Notation or <b>JSON</b> is a language used to model data similar
+                 to XML, however, how JSON represents data is much more lightweight (and in my opinion, more readable) than XML. 
+                 It is also more favourable to use JSON when you know most of your consumers will be developed in JavaScript as
+                 it was originally developed from it and therefore has better support for it. Our response will look like this:
                </p>
-                 <caption> JSON response </caption>
+                 <caption> JSON Response </caption>
                  <pre class="block">
 {
  name: Paul;
@@ -344,16 +347,15 @@ public class StudentController {
                <h3 class="step-title"> Metrics </h3>
                <hr/>
                 <p>
-                  We can also add metrics endpoints to our service to monitor important statistics about the application's health and stability. To do so,
-                  all you have to do is add a dependency to the pom.xml file.
+                  We can also add metrics endpoints to our service to monitor important statistics about the application's health and stability such as the amount of active
+                  sessions connected to it. To do so, all you have to do is add a dependency to the pom.xml file. 
                 </p>
                 <pre class="block">
 <!--            --><span>&lt;dependency&gt;</span>
 <!--            -->  <span>&lt;groupId&gt;</span>org.springframework.boot<span>&lt;/groupId&gt;</span>
 <!--            -->  <span>&lt;artifactId&gt;</span>spring-boot-starter-actuator<span>&lt;/artifactId&gt;</span>
-                <p>
 <!--            --><span>&lt;/dependency&gt;</span></pre>
-                  Now if you relaunch your service, go to <a href="http://localhost:8080/health">http://localhost:8080/health</a>,
+                <p>Now if you relaunch your service, go to <a href="http://localhost:8080/health">http://localhost:8080/health</a>,
                   you will see a simple response containing the status of the service.
                 </p>
                 <pre class="block">{"status":"UP","diskSpace":{"status":"UP","total":36596060160,"free":20713435136,"threshold":10485760}</pre>
@@ -395,9 +397,10 @@ public class StudentController {
                <h3 class="step-title"> Authentication </h3>
                <hr/>
                 <p>
-                  If you think about it, it might not be a good idea to expose these two endpoints to the world as they publish
-                  information about the server that could be maliciously exploited. This is where we introduce a basic idea
-                  of security into our service. To do so, we need to yet add another dependency to the POM.
+                  Security is one thing that web masters should definitely concern themselves with. If you think about it, 
+                  it might not be a good idea to expose these two endpoints to the world as they publish
+                  information about the web server and physical server that could be maliciously exploited. 
+                  This is where we introduce a basic idea of security into our service. To do so, we need to yet add another dependency to the POM.
                 </p>
                 <pre class="block">
 <!--            --><span>&lt;dependency&gt;</span>
@@ -425,7 +428,7 @@ security.user.password=ci347</pre>
                <h3 class="step-title"> Logging </h3>
                <hr/>
                <p>
-                 Logging is important to a webmaster and system administrators as it allows for notification and tracking of problems
+                 Logging is important to web masters and system administrators as it allows for the notification and tracking of problems
                  within an application. By default, the Spring boot web starter dependency uses the Logback framework as a logging convention. Logback uses
                  5 levels of logging,
                </p>
@@ -448,7 +451,8 @@ logging.level.org.springframework.web=INFO</pre>
 logging.file="webservice.log"
 logging.path="/var/log/"</pre>
                <p>
-                 When outputted to a log, the default format consists of a timestamp, log level, process ID, thread name, logger name and log message.
+                 When outputted to a log, the default format consists of a timestamp, log level, process ID, thread name, logger name and log message. To
+                 see this, you just have to go to the shell you started the application from. 
                </p>
                <caption> Default log output </caption>
                <pre class="block">
@@ -463,8 +467,33 @@ logging.path="/var/log/"</pre>
                <p>
                 On top of writing tests to run on your source code such as unit tests, it is also a good idea to
                 black box test your API. A good way to do this is to use a tool like <a href="https://www.getpostman.com/">
-                Postman</a>. With this, you can write collections of automated tests to run against your API.
+                Postman</a>. With this, you can write collections of automated tests to run against your API. It also helps
+                to load test your application to see the amount of users and actions it can take but note that this is only
+                really useful if you run the load tests in an environment simulating your production servers as this is the
+                servers that your user will be hitting. To load test, you can use free, open source tools such as <a href="http://jmeter.apache.org/">JMeter</a> which
+                comes with a GUI, making it a bit easier. Another option is <a href="http://gatling.io/">Gatling.io</a> which runs on their own scripting language
+                or Scala code, this doesn't come with a GUI which might make it a bit harder for a beginner.
                </p>
+             </div>
+           </div>
+           <div class="row step">
+             <div class="small-12 columns small-centered" role="content">
+               <h3 class="step-title"> Reflective Report </h3>
+               <hr/>
+               <p>
+               Before starting my web tutorial, I already had experience in producing web pages using HTML, CSS and JavaScript through using it in my own time and in university. Through my year in industry, I also developed knowledge of the domain the tutorial was focused on as I had used Spring Boot  to produce web services as well as using Representational State Transfer (REST) to model APIs. I have also had experience producing automated black-box tests for RESTful web APIs which has given me a good criteria on what they should look like.
+               </p>
+               <p>
+               Although I had used spring boot previously, I did not understand all of the concepts behind it in depth. Writing a tutorial for it allowed me to explore why the framework makes certain choices in the        technologies and approaches it chooses. An example of something that I learnt more about during the project is how spring handles logging, in particular, the importance of the logging levels and how to change the level that each logger logs to. I think producing the application the tutorial was based on as I was writing the tutorial helped reinforced the knowledge I gained because it made me apply this knowledge as I was learning them.                 </p>
+              <p>
+              I feel like the experience has shown me that I have a good fundamental knowledge of Spring Boot, enough so to consistently produce web applications with it. However, this experience has also made me realise that I lack knowledge surrounding the rest of the Spring framework and projects as the nature of Spring Boot meant that I did not have to configure any other parts of the framework in too much detail. I also feel I could learn more about REST (Representational State Transfer), in particular, concepts behind it such as HATEOAS (Hypermedia as the Engine of Application State) in order to improve my API design abilities.                
+              </p>
+              <p>
+              The most fulfilling part of the process was producing the tutorial page itself  as I think producing a modern, polished site to display the content is just as important as the content itself. This is because a good layout and styling of a site makes a page look and feel more complete and can greatly improve the usability and user experience of the tutorial. On the flip side, I feel a bad design could definitely inhibit the user's ability to learn from my tutorial. I chose to use a “carousel” on my site for each step of the tutorial as it allows the user to focus on one step at a time whilst making the page feel less cluttered and busy. The most frustrating part of this was dealing with formatting the code snippets as HTML doesn't have a particularly good way of doing this.              
+              </p>                 
+              <p>   
+              All in all, the process of building the tutorial and the application has definitely helped me to refresh and improve on my out-of-practice skills with Spring, Java and front end design/development that I can apply in the other projects I am doing, primarily my main final year project for which I am producing a Java/Spring server for as well as a HTML/CSS/JavaScript front end.
+             </p>                 
              </div>
            </div>
           </div>
